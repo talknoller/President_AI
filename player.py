@@ -3,8 +3,9 @@ import utilites
 
 
 class Player:
-    def __init__(self, cards):
+    def __init__(self, cards, name):
         self.cards = cards
+        self.id = name
 
     def available_moves(self, top_card):
         pairs = utilites.find_pairs(self.cards)

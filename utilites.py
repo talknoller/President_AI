@@ -1,8 +1,32 @@
+import random
+from card import Card
+
+
+def create_deck():
+    deck = []
+    for i in range(2, 15):
+        deck.append(Card(i, 'D'))
+
+    for i in range(2, 15):
+        deck.append(Card(i, 'H'))
+
+    for i in range(2, 15):
+        deck.append(Card(i, 'S'))
+
+    for i in range(2, 15):
+        deck.append(Card(i, 'C'))
+
+    deck.append(Card(1, "R"))
+    deck.append(Card(1, "B"))
+
+    return deck
+
+
 def find_pairs(cards):
     pairs = []
     for card in cards:
         for second_card in cards:
-            if card.value == second_card. value and card.tie != second_card.tie and card.value != 2:
+            if card.value == second_card.value and card.tie != second_card.tie and card.value != 2:
                 new_pair = [card, second_card]
                 pairs.append(new_pair)
 
@@ -26,6 +50,33 @@ def find_quadrupoles(cards):
 
     for triple in triplets:
         for card in cards:
-            if card.value == triple[0].value and card.tie != triple[0].tie and card.tie != triple[1].tie and card.tie != triple[2].tie:
+            if card.value == triple[0].value and card.tie != triple[0].tie and card.tie != triple[1].tie and card.tie != \
+                    triple[2].tie:
                 triple.append(card)
                 quads.append(triple)
+
+
+def deal_cards(number_of_players):
+    players = []
+    for i in range(number_of_players):
+        players.append(list())
+
+    deck = create_deck()
+    amount_of_cards = int(len(deck) / number_of_players)
+    for player in players:
+        for j in range(amount_of_cards):
+            player.append(deck.pop(random.randint(0, len(deck) - 1)))
+
+    for i in range(amount_of_cards % number_of_players):
+        players[i].append(deck.pop(0))
+
+    return players
+
+
+def is_card_in_hand(player, card):
+    for card_in_hand in player.cards:
+        if card_in_hand.value == card.value and card_in_hand.tie == card.tie:
+            return True
+    return False
+
+
