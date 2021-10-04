@@ -73,10 +73,17 @@ def deal_cards(number_of_players):
     return players
 
 
-def is_card_in_hand(player, card):
-    for card_in_hand in player.cards:
-        if card_in_hand.value == card.value and card_in_hand.tie == card.tie:
-            return True
-    return False
+def find_card_index(player, card):
+    for i in range(len(player.cards)):
+        if card[i] == card:
+            return i
+    return -1
 
 
+def find_jokers(cards):
+    jokers = []
+    for card in cards:
+        if card.value == 1:
+            jokers.append(card)
+
+    return jokers

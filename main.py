@@ -1,4 +1,4 @@
-from top_card import top_card
+from top_card import TopCard
 from player import Player
 import utilites
 from card import Card
@@ -17,13 +17,16 @@ def create_players(number_of_players):
 
     next_player_node.next_node = player_1
 
-    for i in range(10):
-        print(next_player_node.data.id)
-        next_player_node = next_player_node.next_node
+    return next_player_node.next_node
 
 
-create_players(5)
+players = create_players(5)
+top_cards = [Card(3, 'S')]
 
+
+while len(players.data.cards) != 0:
+    if len(players.data.available_moves) != 0:
+        players.data.play_random_card(top_cards)
 
 
 

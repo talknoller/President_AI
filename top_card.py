@@ -1,7 +1,7 @@
 from card import Card
 
 
-class top_card:
-    def __init__(self, cards, amount):
+class TopCard:
+    def __init__(self, cards):
         self.cards = cards
-        self.amount = amount
+        self.amount = len(cards)
