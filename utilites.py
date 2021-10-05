@@ -73,17 +73,40 @@ def deal_cards(number_of_players):
     return players
 
 
-def find_card_index(player, card):
-    for i in range(len(player.cards)):
-        if card[i] == card:
+def find_card_index(hand, card):
+    for i in range(len(hand)):
+        if hand[i] == card:
             return i
     return -1
 
 
-def find_jokers(cards):
-    jokers = []
-    for card in cards:
-        if card.value == 1:
-            jokers.append(card)
+def find_group_index(hand, group):
+    for i in range(len(hand) - 1):
+        if len(hand[i]) == len(group):
+            is_there = True
+            for card in group:
+                if find_card_index(hand[i], card) == -1:
+                    is_there = False
+                    break
 
-    return jokers
+                else:
+                    is_there = True
+
+        if is_there:
+            return i
+    return -1
+
+
+def find_card_by_value(cards, value):
+    right_cards = []
+    for card in cards:
+        if card.value == value:
+            right_cards.append(card)
+
+
+def find_jokers(cards):
+    return find_card_by_value(cards, 1)
+
+
+def find_cutters(cards):
+    return find_card_by_value(cards, 2)

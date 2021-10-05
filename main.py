@@ -24,9 +24,9 @@ players = create_players(5)
 top_cards = [Card(3, 'S')]
 
 
-while len(players.data.cards) != 0:
-    if len(players.data.available_moves) != 0:
-        players.data.play_random_card(top_cards)
+# while len(players.data.cards) != 0:
+#     if len(players.data.available_moves()) != 0:
+#         players.data.play_random_card(top_cards)
 
 
 
