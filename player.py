@@ -63,44 +63,43 @@ class Player:
 
         if 0 != top_card.amount:
             for cutter in utilites.find_cutters(self.cards):
-                playable_cards.append(cutter)
+                playable_cards.append([cutter])
 
         for joker in jokers:
-            playable_cards.append(joker)
+            playable_cards.append([joker])
 
         return playable_cards
 
     def play_random_card(self, top_card):
-        playable_cards = self.available_moves(top_card)
-        chosen_cards = playable_cards[random.randint(0, len(playable_cards) - 1)]
-        for card in chosen_cards:
-            for i in range(len(self.cards) - 1):
-                if self.cards[i] == card:
-                    self.cards.pop(i)
-
-        print("player number " + str(self.id) + " played ")
-        print(chosen_cards[0].__str__())
+        self.play_card(self.available_moves(top_card)[random.randint(0, len(self.available_moves(top_card)) - 1)],
+                       top_card, 2)
 
     def play_card(self, cards, top_card, joker_value=0):
-        for card in cards:
-            if card.value == 1 and joker_value >= 2:
-                card.value = joker_value
-
         if len(cards) == 1:
             if utilites.find_card_index(self.available_moves(top_card), cards) == -1:
                 print("illegal play")
                 return
+            elif cards[0].value == 1:
+                if top_card.cards[0].value <= joker_value <= 14 or joker_value == 2:
+                    print("player " + str(self.id) + " played " + str(cards[0].value) + cards[0].tie +
+                          " as " + str(joker_value))
+                    return self.cards.pop(utilites.find_card_index(self.cards, cards[0]))
+                else:
+                    print("joker must have a value between " + str(top_card.cards[0].value) + " and 14 or 2")
+                    return
             else:
                 print("player " + str(self.id) + " played " + str(cards[0].value) + cards[0].tie)
-                self.cards.pop(utilites.find_card_index(self.cards, cards[0]))
-
+                return self.cards.pop(utilites.find_card_index(self.cards, cards[0]))
         else:
             if utilites.find_group_index(self.available_moves(top_card), cards) == -1:
                 print("illegal play")
                 return
             else:
+                played_cards = []
                 print("player " + str(self.id) + " played " + str(len(cards)) + " cards:")
                 for card in cards:
                     print(card.__str__())
-
-
+                    played_cards.append(card)
+                for card in played_cards:
+                    self.cards.pop(utilites.find_card_index(self.cards, card))
+                return played_cards

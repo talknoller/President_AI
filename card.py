@@ -7,4 +7,6 @@ class Card:
         return str(self.value) + " " + self.tie
 
     def __eq__(self, other):
-        return self.tie == other.tie and self.value == other.value
+        if isinstance(other, Card):
+            return self.tie == other.tie and self.value == other.value
+        return False
