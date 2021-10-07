@@ -102,6 +102,7 @@ def find_card_by_value(cards, value):
     for card in cards:
         if card.value == value:
             right_cards.append(card)
+    return right_cards
 
 
 def find_jokers(cards):
