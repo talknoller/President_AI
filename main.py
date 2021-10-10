@@ -1,3 +1,5 @@
+import random
+
 from top_card import TopCard
 from player import Player
 import utilities
@@ -25,8 +27,23 @@ def single_card_logic(player_node, top_card, players_left, number_of_winners, pl
         print("player " + str(player_node.data.id) + " passed his turn")
         return turn(player_node.next_node, top_card, players_left, number_of_winners)
 
-    if played_card.value == 1:
-        top_card = TopCard(player_node.data.id, Card(joker_value, played_card.tie), player_node.data.id)
+    if played_card.value == 2 or (played_card.value == 1 and joker_value == 2):
+        print("player " + str(player_node.data.id) + " played " + str(played_card.value) + played_card.tie)
+        player_node.data.cards.pop(played_card)
+        return turn(player_node, TopCard(), players_left, number_of_winners)
+
+    elif played_card.value == 1:
+        print("player " + str(player_node.data.id) + " played " + str(played_card.value) + played_card.tie
+              + " as " + str(joker_value))
+        top_card = TopCard(player_node.data.id, Card(joker_value, played_card.tie))
+        player_node.data.cards.pop(played_card)
+
+    else:
+        print("player " + str(player_node.data.id) + " played " + str(played_card.value) + played_card.tie)
+        top_card = TopCard(player_node.id, played_card)
+        player_node.data.cards.pop
+
+    return turn(player_node.next_node, top_card, players_left, number_of_winners)
 
 
 def turn(player_node, top_card, players_left, number_of_winners=0):
@@ -34,19 +51,20 @@ def turn(player_node, top_card, players_left, number_of_winners=0):
         top_card = TopCard()
     played_cards = player_node.data.play_random_card(top_card)
     if isinstance(played_cards, Card):
-        if played_cards.value == 2:
-            # add last card is cutter auto lose
-            return turn(player_node, TopCard(), players_left, number_of_winners)
-        if played_cards.value == 0:
-            return turn(player_node.next_node, top_card, players_left, number_of_winners)
+        return single_card_logic(player_node, top_card, players_left, number_of_winners, played_cards, random.randint(2, 14))
+    elif isinstance(played_cards, list):
+        if len(played_cards) == 1:
+            return single_card_logic(player_node, top_card, players_left, number_of_winners, played_cards[0], random.randint(2, 14))
 
+    else:
+        top_card = TopCard(cards=played_cards, player_id=player_node.data.id)
+        for card in played_cards:
+            player_node.data.cards.pop(utilities.find_card_index(player_node.data.cards, card))
 
-
-    top_card = TopCard(cards=played_cards, player_id=player_node.data.id)
-    if player_node.data.cards is None or len(player_node.data.cards) == 0:
-        print("player " + str(player_node.data.id) + " has won")
-        return player_node
-    return turn(player_node.next_node, top_card, players_left, number_of_winners)
+        if player_node.data.cards is None or len(player_node.data.cards) == 0:
+            print("player " + str(player_node.data.id) + " has won")
+            return player_node
+        return turn(player_node.next_node, top_card, players_left, number_of_winners)
 
     # if len(player_node.data.cards) == 0:
     #     player_node.data.result = number_of_winners + 1
