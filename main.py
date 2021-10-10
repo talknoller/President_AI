@@ -20,6 +20,15 @@ def create_players(number_of_players):
     return next_player_node.next_node
 
 
+def single_card_logic(player_node, top_card, players_left, number_of_winners, played_card, joker_value):
+    if played_card.value == 0:
+        print("player " + str(player_node.data.id) + " passed his turn")
+        return turn(player_node.next_node, top_card, players_left, number_of_winners)
+
+    if played_card.value == 1:
+        top_card = TopCard(player_node.data.id, Card(joker_value, played_card.tie), player_node.data.id)
+
+
 def turn(player_node, top_card, players_left, number_of_winners=0):
     if top_card.player_id == player_node.data.id:
         top_card = TopCard()
@@ -30,6 +39,8 @@ def turn(player_node, top_card, players_left, number_of_winners=0):
             return turn(player_node, TopCard(), players_left, number_of_winners)
         if played_cards.value == 0:
             return turn(player_node.next_node, top_card, players_left, number_of_winners)
+
+
 
     top_card = TopCard(cards=played_cards, player_id=player_node.data.id)
     if player_node.data.cards is None or len(player_node.data.cards) == 0:

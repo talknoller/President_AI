@@ -42,7 +42,7 @@ class Player:
 
             for card in self.cards:
                 for joker in jokers:
-                    if card.value >= top_card[0].value:
+                    if card.value >= top_card.cards[0].value:
                         playable_cards.append([card, joker])
 
         if 3 == top_card.amount:
@@ -117,14 +117,13 @@ class Player:
                 print("player " + str(self.id) + " played a pair: " + played_cards_string)
 
             elif len(playable_moves[chosen_cards]) == 3:
-                print("player " + self.id + " played a triple: " + played_cards_string)
+                print("player " + str(self.id) + " played a triple: " + played_cards_string)
 
             elif len(playable_moves[chosen_cards]) == 4:
-                print("player " + self.id + " played a quadruple: " + played_cards_string)
+                print("player " + str(self.id) + " played a quadruple: " + played_cards_string)
             elif len(playable_moves[chosen_cards]) >= 5:
                 print("too many cards played")
                 return [Card(0, 'N')]
             return played_cards_list
 
 
-    
