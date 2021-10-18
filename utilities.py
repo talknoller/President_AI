@@ -16,8 +16,8 @@ def create_deck():
     for i in range(2, 15):
         deck.append(Card(i, 'C'))
 
-    deck.append(Card(1, "R"))
-    deck.append(Card(1, "B"))
+    deck.append(Card(1, "J"))
+    deck.append(Card(1, "J"))
 
     return deck
 
@@ -67,9 +67,10 @@ def deal_cards(number_of_players):
         for j in range(amount_of_cards):
             player.append(deck.pop(random.randint(0, len(deck) - 1)))
 
-    for i in range(amount_of_cards % number_of_players):
-        players[i].append(deck.pop(0))
-
+    player_number = 0
+    for i in range(len(deck)):
+        players[player_number].append(deck.pop(0))
+        player_number += 1
     return players
 
 
@@ -111,3 +112,4 @@ def find_jokers(cards):
 
 def find_cutters(cards):
     return find_card_by_value(cards, 2)
+

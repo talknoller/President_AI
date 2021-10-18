@@ -12,8 +12,11 @@ class TopCard:
         if isinstance(cards, Card):
             cards = [cards]
 
-        if cards[0].value != 0:
-            amount = len(cards)
+        elif isinstance(cards, list):
+            if cards[0].value != 0:
+                amount = len(cards)
+        else:
+            cards = [Card(0, 'N')]
 
         self.amount = amount
         self.cards = cards
